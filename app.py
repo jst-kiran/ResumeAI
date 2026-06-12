@@ -1,15 +1,10 @@
 from flask import Flask, render_template, request
 import PyPDF2
 import google.generativeai as genai
-
-app = Flask(__name__)
-
-# ==========================
-# GEMINI API CONFIGURATION
-# ==========================
 from dotenv import load_dotenv
 import os
 
+app = Flask(__name__)
 load_dotenv()
 
 API_KEY = os.getenv("GEMINI_API_KEY")
@@ -18,10 +13,7 @@ genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
 
-# ==========================
 # PDF TEXT EXTRACTION
-# ==========================
-
 def extract_text(pdf_file):
 
     text = ""
@@ -41,10 +33,7 @@ def extract_text(pdf_file):
     return text
 
 
-# ==========================
 # RESUME ANALYSIS
-# ==========================
-
 def analyze_resume(resume_text):
 
     prompt = f"""
@@ -110,11 +99,7 @@ The Resume Analyzer is working correctly, but the free Gemini tier has temporary
 
 
 
-
-# ==========================
 # MAIN ROUTE
-# ==========================
-
 @app.route("/", methods=["GET", "POST"])
 def home():
 
@@ -151,9 +136,6 @@ def home():
     )
 
 
-# ==========================
 # RUN APP
-# ==========================
-
 if __name__ == "__main__":
     app.run(debug=True)
